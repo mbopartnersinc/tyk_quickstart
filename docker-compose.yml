@@ -10,10 +10,17 @@ services:
             gateway:
                 aliases:
                     - redis
+    tyk_mongo_data:
+        image: mongo:latest
+        entrypoint: /bin/echo
+        volumes:
+            - /data/db 
     tyk_mongo:
         image: mongo:latest
         command: ["mongod", "--smallfiles"]
         hostname: mongo
+        volumes_from:
+            - tyk_mongo_data
         ports:
             - "27017:27017"
         networks:
